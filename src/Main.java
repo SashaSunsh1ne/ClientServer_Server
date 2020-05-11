@@ -10,13 +10,13 @@ public class Main {
     private static ServerHandler serverHandler;
     public static List<ClientHandler> handlers = new LinkedList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         start();
         handle();
         end();
     }
 
-    private static void start() {
+    private static void start()  {
         try {
             server = new ServerSocket(8888);
         } catch (IOException e) {
@@ -24,18 +24,25 @@ public class Main {
         }
     }
 
-    private static void handle() {
+    private  static void  handle() throws InterruptedException {
         serverHandler = new ServerHandler(server);
         serverHandler.start();
+        readChat();
     }
 
-    private static void end() {
-        try {
-            server.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private static void readChat() throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            if (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.equals("#end"))
+                    end();
+                else
+                    System.out.println("Unknown command");
+            } else {
+                Thread.sleep(10);
+            }
         }
-        System.out.println();
     }
 
     public static void sendPacket(Socket receiver, Packet packet) {
@@ -48,4 +55,12 @@ public class Main {
         }
     }
 
+    private static void end() {
+        try {
+            server.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println();
+    }
 }
