@@ -13,3 +13,6 @@ Server
   
 Акхитектура:
   Многопоточный Клиент-Сервер
+
+Ссылка на клиент
+https://github.com/SashaSunsh1ne/ClientServer_Client/
